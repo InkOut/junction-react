@@ -104,10 +104,15 @@ class MyForms extends Component {
                                     + Add Employer
                                 </Button>
                                 {!this.state.ready ? (<Spin/>) : (
-                                    <table>
+                                    <table style={{width: "100%"}}>
                                         {this.state.myEmployers.map(d => {
-                                            return <tr>
+                                            return <tr style={{fontSize: "20px", verticalAlign: "middle"}}>
                                                 <td>{d.name}</td>
+                                                <td style={{flexDirection: "row", display: "flex"}}>
+                                                    Link: <Input
+                                                    disabled={1}
+                                                    value={"http://localhost/employer#" + d.id}/>
+                                                </td>
                                                 <td>
                                                     <Link to={'./showEmployerResponse#' + d.id}>
                                                       <span className="isoMenuHolder" style={{}}>

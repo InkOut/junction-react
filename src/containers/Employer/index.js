@@ -17,6 +17,7 @@ import Question from "./question";
 import {Scope} from "../../iFrameAPI/scope";
 import axios from "axios";
 import Topbar from '../Topbar/Topbar';
+import Prepare from "./mainPrepare";
 
 const {changeNote, addNote, editNote, deleteNote, changeColor} = noteActions;
 const {Header, Content} = Layout;
@@ -84,12 +85,13 @@ class Employer extends Component {
         const {url} = this.props.match;
         return (<div style={{background: "#f2f2f2", height: "100vh"}}>
                 <Topbar url={url}/>
-                <div style={{padding: '80px 0 0', background: "white"}} className="isomorphicNoteComponent">
+                <div style={{padding: '80px 0 0'}} className="isomorphicNoteComponent">
                     <Row gutter={0} justify="space-between" style={basicStyle.rowStyle}>
-                        <Col md={20} push={2}>
-                            {this.state.ready ? <Question
+                        <Col md={24}>
+                            {!this.state.prepared ? <Prepare/> : this.state.ready ? <Question
                                 question={this.state.questions[this.state.actual]}
                                 form_id={this.state.form_id}
+                                id={this.state.questions[this.state.actual].id}
                                 showNext={() => this.setState({actual: this.state.actual + 1})}
 
                             /> : null}

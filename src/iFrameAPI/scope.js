@@ -13,10 +13,10 @@ export class Scope {
     }
 
     handleMessage(event) {
-
+        console.log("handleMessage", this.id, ":", event.data);
         if (event.data.fromID != this.id)
             return;
-        console.log("handleMessage", this.id, ":", event.data);
+
         switch (event.data.message) {
             // case "initialized":
             //     document.getElementById("app").contentWindow.postMessage({
@@ -32,7 +32,7 @@ export class Scope {
                 };
                 document.getElementById("app" + this.id).contentWindow.postMessage(d, "*");
                 console.log("send init", d);
-
+                break;
             case "rendered":
                 this.onRendered();
                 break;

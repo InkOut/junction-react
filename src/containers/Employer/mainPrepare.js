@@ -3,74 +3,81 @@ import fakeData from "../HRVacansy/CreateVacansy/fakeData"
 import {Scope} from "../../iFrameAPI/scope";
 import Button from '../../components/uielements/button';
 import axios from "axios";
-import {Timer} from "../../Timer";
+import {Row, Col} from 'antd';
+import basicStyle from '../../config/basicStyle';
+import Input, {
+    InputSearch,
+    InputGroup,
+    Textarea,
+} from '../../components/uielements/input';
 
-class Question extends Component {
+class Prepare extends Component {
     constructor(props) {
         super(props);
-        this.state = {question: props.question, id: props.id || Math.random()};
-        this.reloadScope("main",props);
+        this.state = {};
     }
 
-    reloadScope(v, props) {
-        console.log("called", v, props.question);
-        if (this.d)
-            this.d.kill();
-        this.d = new Scope();
-
-        Timer.setNewTime(props.question.limitInSeconds);
-        Timer.onEnd = () => props.question.limitInSeconds > 0 && this.d && this.d.notifyTimeIsUp();
-        this.d.start(props.question.settings, props.id);
-        this.d.onRendered = () => {
-            console.log("timer start");
-            Timer.start();
-        };
-        this.d.onFinished = (d) => {
-            axios.post("http://interviewplus.azurewebsites.net/api/answers", {
-                "interview_id": window.location.hash.slice(1),
-                "question_id": props.question.id,
-                "form_id": props.form_id,
-                answer1: JSON.stringify(d),
-                type: "none"
-            }, {withCredentials: false})
-                .then((d) => {
-                    props.showNext();
-                })
-
-
-        }
-    }
 
     componentWillReceiveProps(newprops) {
         console.log("newprops", newprops);
-        this.state.question = newprops.question;
 
         this.setState({...newprops});
 
-        this.reloadScope("props",newprops);
     }
 
-    stopQuestion() {
-        this.d.notifyTimeIsUp();
-        //this.setState({actual: this.state.actual + 1})
+    allowWebcam() {
+        navigator.getUserMedia(
+            // constraints
+            {
+                video: true,
+                audio: true
+            }, () => {
+
+            }, () => {
+                document.location.href = "https://google.com"
+            }
+        )
     }
 
     render() {
 
         return (
             <div>
-                <h1>{this.state.question.question.value}</h1>
-                <iframe style={{width: "100%", height: "520px", border: "0"}} id={"app" + this.state.id}
-                        src={fakeData.apps.find(v => v.type == this.state.question.type).html + "?" + this.state.id + "#" + this.state.id}/>
-                <Button type="primary" onClick={() => {
-                    this.stopQuestion();
-                }}>
-                    Следующий вопрос
-                </Button>
+                <Row gutter={0} justify="space-between" style={[basicStyle.rowStyle, {background: "white"}]}>
+                    <Col md={7} offset={4}>
+                        <h1>Hi! Be ready to be fast and honest</h1>
+                        <p style={{fontSize: "14px"}}>
+                            jkl ajdalkjsd lkjaskl askld asklj klasj lka jkl ajdalkjsd lkjaskl askld asklj klasj lka jkl
+                            ajdalkjsd lkjaskl askld asklj klasj lka jkl ajdalkjsd lkjaskl askld asklj klasj lka jkl
+                            ajdalkjsd lkjaskl askld asklj klasj lka
+                            jkl ajdalkjsd lkjaskl askld asklj klasj lka
+                        </p>
+
+                    </Col>
+                    <Col md={8} offset={2}>
+                        <h1>We need more information about you</h1>
+                        <div style={{flexDirection: "row", display: "flex", fontSize: "15px", fontWeight: "bold"}}>
+                            Your Name: <Input
+                            value={""}/>
+                        </div>
+                        <div style={{flexDirection: "row", display: "flex", fontSize: "15px", fontWeight: "bold"}}>
+                            Your Email: <Input
+                            value={""}/>
+                        </div>
+                        <Button type="primary" onClick={() => {
+                            this.allowWebcam();
+                        }}>
+                            Allow webcam & GO
+                        </Button>
+
+
+                    </Col>
+                </Row>
+
             </div>
         );
     }
 }
 
 
-export default Question;
+export default Prepare;

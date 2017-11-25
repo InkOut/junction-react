@@ -9,16 +9,18 @@ class Question extends Component {
     constructor(props) {
         super(props);
         this.state = {question: props.question, id: props.id || Math.random()};
-        this.reloadScope("main");
+        this.reloadScope("main",props);
     }
 
-    reloadScope(v) {
-        console.log("called", v, this.state.question);
+    reloadScope(v, props) {
+        console.log("called", v, props.question);
         if (this.d)
             this.d.kill();
         this.d = new Scope();
-        Timer.setNewTime(this.state.question.limitInSeconds);
-        this.d.start(this.state.question.settings, this.state.id);
+
+        Timer.setNewTime(props.question.limitInSeconds);
+        Timer.onEnd = () => props.question.limitInSeconds > 0 && this.d && this.d.notifyTimeIsUp();
+        this.d.start(props.question.settings, props.id);
         this.d.onRendered = () => {
             console.log("timer start");
             Timer.start();
@@ -26,13 +28,13 @@ class Question extends Component {
         this.d.onFinished = (d) => {
             axios.post("http://interviewplus.azurewebsites.net/api/answers", {
                 "interview_id": window.location.hash.slice(1),
-                "question_id": this.state.question.id,
-                "form_id": this.props.form_id,
+                "question_id": props.question.id,
+                "form_id": props.form_id,
                 answer1: JSON.stringify(d),
                 type: "none"
             }, {withCredentials: false})
                 .then((d) => {
-                    this.props.showNext();
+                    props.showNext();
                 })
 
 
@@ -43,9 +45,9 @@ class Question extends Component {
         console.log("newprops", newprops);
         this.state.question = newprops.question;
 
-        this.setState({question: newprops.question});
+        this.setState({...newprops});
 
-        this.reloadScope("props");
+        this.reloadScope("props",newprops);
     }
 
     stopQuestion() {
@@ -59,7 +61,7 @@ class Question extends Component {
             <div>
                 <h1>{this.state.question.question.value}</h1>
                 <iframe style={{width: "100%", height: "520px", border: "0"}} id={"app" + this.state.id}
-                        src={fakeData.apps.find(v => v.type == this.state.question.type).html + "#" + this.state.id}/>
+                        src={fakeData.apps.find(v => v.type == this.state.question.type).html + "?" + this.state.id + "#" + this.state.id}/>
                 <Button type="primary" onClick={() => {
                     this.stopQuestion();
                 }}>

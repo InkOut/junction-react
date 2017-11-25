@@ -32,7 +32,7 @@ export default {
         }],
     apps: [{
         type: "textArea",
-        html: "https://mrkoapp.ru/apps/text.html",
+        html: "https://static.mrkoapp.ru/text.html",
         name: "Text task",
         description: "Interviewee will give text answers ",
         settings: [{type: 'textArea', name: "value", say: "Placeholder?"}]
@@ -40,25 +40,25 @@ export default {
         type: "code",
         name: "Code task",
         description: "Interviewee will interact with a code to give an answer",
-        html: "https://mrkoapp.ru/apps/codedit.html",
+        html: "https://static.mrkoapp.ru/codedit.html",
         settings: [{type: 'code', name: "value", say: "Placeholder code"}]
     }, {
         type: "marker",
         name: "Marker task",
         description: "Interviewee will allocate photos by interactive marker",
-        html: "https://mrkoapp.ru/apps/whiteboard.html",
+        html: "https://static.mrkoapp.ru/whiteboard.html",
         settings: [{type: 'input', name: "background", say: "background url"}]
     }, {
         type: "video",
         name: "Video task",
         description: "Interviewee will record an ansver in video format",
-        html: "https://mrkoapp.ru/apps/webcam.html",
+        html: "https://static.mrkoapp.ru/webcam.html",
         settings: []
     }, {
         type: "quiz",
         name: "Quiz task",
         description: "",
-        html: "https://mrkoapp.ru/apps/quiz.html",
+        html: "https://static.mrkoapp.ru/quiz.html",
         settings: []
     }]
 }
