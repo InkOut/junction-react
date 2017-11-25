@@ -14,7 +14,7 @@ export class Form extends Component {
         return (
             <SingleCardWrapper className={"isoSingleCard card grid"}
                                onClick={() => this.props.onClick(this.state.form.id)}>
-                <span style={{fontSize: "30px", color: "#000000", fontFamily: "Lato"}}>{this.state.form.name}</span>
+                <div style={{fontSize: "30px", color: "#000000", fontFamily: "Lato"}}>{this.state.form.name}</div>
             </SingleCardWrapper>
         );
     }

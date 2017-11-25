@@ -72,7 +72,7 @@ class ShowResponse extends Component {
         axios.post("http://interviewplus.azurewebsites.net/api/forms", {
             hr_login: "login",
             name: this.state.newName
-        }, {withCredentials: true}).then((d) => {
+        }, {withCredentials: false}).then((d) => {
             window.location.href = "/dashboard/createVacansy#" + d.data
         })
     }

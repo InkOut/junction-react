@@ -19,6 +19,7 @@ const {toggleCollapsed} = appActions;
 
 class Topbar extends Component {
     state = {};
+
     render() {
         Timer.onSecond = (t) => this.setState({time: t});
         const {toggleCollapsed, url, customizedTheme, locale} = this.props;
@@ -71,8 +72,9 @@ class Topbar extends Component {
                         }}/>
                         <div style={{width: "100%", position: "absolute", textAlign: "center", margin: "auto"}}>
                             {url == "/employer" ? <div>
-                                <div>MINUTES LEFT</div>
-                                <div>{this.state.time ? (Math.floor(this.state.time / 60) + ":" + this.state.time % 60) : null}</div>
+                                <span style={{fontSize: "20px",}}>MINUTES LEFT</span>
+                                <span
+                                    style={{fontSize: "40px",}}>{this.state.time ? (Math.floor(this.state.time / 60) + ":" + this.state.time % 60) : null}</span>
                             </div> : (<div>
                                 <Link to={`${url}/myForms`}>
                                 <span className="isoMenuHolder" style={linkS}>

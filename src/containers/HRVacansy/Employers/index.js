@@ -50,12 +50,12 @@ class MyForms extends Component {
 
     handleOk() {
         this.setState({visible: false});
-        axios.post("http://interviewplus.azurewebsites.net/api/interviewees?name=" + this.state.newName, {}, {withCredentials: true})
+        axios.post("http://interviewplus.azurewebsites.net/api/interviewees?name=" + this.state.newName, {}, {withCredentials: false})
             .then((d) => {
                 axios.post("http://interviewplus.azurewebsites.net/api/interviews", {
                     "interviewee_id": d.data,
                     "form_id": window.location.hash.slice(1)
-                }, {withCredentials: true})
+                }, {withCredentials: false})
                     .then((d) => {
                         this.state.myEmployers.push({id: d.data, name: this.state.newName});
                         this.setState({myEmployers: this.state.myEmployers});

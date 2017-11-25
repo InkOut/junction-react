@@ -30,7 +30,7 @@ class Question extends Component {
                 "form_id": this.props.form_id,
                 answer1: JSON.stringify(d),
                 type: "none"
-            }, {withCredentials: true})
+            }, {withCredentials: false})
                 .then((d) => {
                     this.props.showNext();
                 })
